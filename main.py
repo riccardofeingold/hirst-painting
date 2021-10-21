@@ -1,12 +1,16 @@
 import turtle as t
 import random
 import colorgram
+import pyautogui
+
 
 # get the location of the image
 file_path = input("Enter file path of image: ")
+user_func = input("Enter a linear function: ")
+step_width = int(input("Enter a step width: "))
 
 # extract colors form image and store it in a list
-colors = colorgram.extract('image.jpg', 30)
+colors = colorgram.extract(file_path, 30)
 rgb_colors = []
 for color in colors:
     r = color.rgb.r
@@ -29,30 +33,39 @@ tim = t.Turtle()
 tim.speed(0)
 tim.setheading(225)
 tim.penup()
-tim.forward(300)
+tim.forward(200)
 tim.setheading(0)
 (start_pos_x, start_pos_y) = tim.position()
 t.colormode(255)
 
+# get the special function of the user
+def f(x):
+    f = eval(user_func)
+    return f
+
 # drawing function: draws dots
-def draw_dotted_line():
+def draw_dotted_line(x, y):
+    tim.goto(x, y + f(x))
     tim.pendown()
     tim.dot(dot_size, random.choice(rgb_colors))
     tim.penup()
-    tim.forward(50)
 
 # actual drawing happens here
 for i in range(0, columns):
-    tim.setposition(start_pos_x, start_pos_y + 50*i)
-    for _ in range(rows):
-        draw_dotted_line()
+    for j in range(rows):
+        draw_dotted_line(start_pos_x + step_width * j, start_pos_y + step_width * i)
 
 # hides the turtle
 tim.hideturtle()
 
-# takes a screenshot of the window
+# setting up screen size
+screen = t.Screen()
+screen.setup(width=1.0, height=1.0, startx=None, starty=None)
 
+
+# takes a screenshot of the window
+myscreenshot = pyautogui.screenshot()
+myscreenshot.save('/Users/riccardofeingold/Downloads/screenshot.png')
 # (optional) send you the image on to your phone
 
-screen = t.Screen()
 screen.exitonclick()
