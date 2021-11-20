@@ -8,7 +8,7 @@ import pyautogui
 file_path = input("Enter file path of image: ")
 user_func = input("Enter a linear function: ")
 step_width = int(input("Enter a step width: "))
-
+backgroundColor = (int(x) for x in input("Background rgb Color: ").split())
 # extract colors form image and store it in a list
 colors = colorgram.extract(file_path, 30)
 rgb_colors = []
@@ -61,6 +61,7 @@ tim.hideturtle()
 # setting up screen size
 screen = t.Screen()
 screen.setup(width=1.0, height=1.0, startx=None, starty=None)
+screen.bgcolor(backgroundColor)
 
 
 # takes a screenshot of the window
